@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import styled from 'styled-components';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+	return (
+		<Container>
+			<Section>
+
+			</Section>
+		</Container>
+	);
 }
 
-export default App;
+const Container = styled.div`
+	display:flex;
+	justify-content:center;
+	height:100%;
+	align-items:center;
+`;
+
+const Section = styled.section`
+	background-color: #EEE;
+	border-top: solid 2px palevioletred;
+	padding: 20px 25px;
+	width: 500px;
+	box-shadow: 0px 2px 3px rgb(0, 0, 0, 0.3);
+	
+`;
