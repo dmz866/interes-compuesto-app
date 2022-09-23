@@ -1,10 +1,22 @@
 import { Form, Formik } from 'formik';
-import styled from 'styled-components';
+import { useState } from 'react';
 import './App.css';
-import Input from './components/Input/Input';
+import Balance from './components/Balance/Balance';
 import Button from './components/Button/Button';
+import Container from './components/Container/Container';
+import Input from './components/Input/Input';
+import Section from './components/Section/Section';
 
 export default function App() {
+	const [balance, setBalance] = useState('');
+
+	const handleSubmit = ({ deposit, contribution, years, rate }) => {
+		let val = compoundInterest(Number(deposit), Number(contribution), Number(years), Number(rate));
+		setBalance(formatter.format(val));
+	}
+
+	const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
 	return (
 		<Container>
 			<Section>
@@ -14,28 +26,23 @@ export default function App() {
 						<Input name='contribution' label='Contribucion anual' />
 						<Input name='years' label='Anios' />
 						<Input name='rate' label='Interes estimado' />
-						<Button>Calcular</Button>
+						<Button type='button'>Calcular</Button>
 					</Form>
 				</Formik>
+				{(balance !== '') ? <Balance>{`Balance final: ${balance}`}</Balance> : null}
 			</Section>
 		</Container>
 	);
 }
 
-function handleSubmit() { }
 
-const Container = styled.div`
-	display:flex;
-	justify-content:center;
-	height:100%;
-	align-items:center;
-`;
 
-const Section = styled.section`
-	background-color: #EEE;
-	border-top: solid 2px palevioletred;
-	padding: 20px 25px;
-	width: 500px;
-	box-shadow: 0px 2px 3px rgb(0, 0, 0, 0.3);
-	
-`;
+function compoundInterest(deposit, contribution, years, rate) {
+	let total = deposit;
+
+	for (let i = 0; i < years; i++) {
+		total = (total + contribution) * (rate + 1);
+	}
+
+	return Math.round(total);
+}
